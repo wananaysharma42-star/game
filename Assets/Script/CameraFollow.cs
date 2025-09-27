@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Transform target;   // the ball
-    public Vector3 offset;     // distance between camera and ball
+    public Vector3 offset = new Vector3(0f , 3f , -6f);     // distance between camera and ball
     public float smoothSpeed = 0.125f;  // smoothness factor
     // Start is called before the first frame update
     void Start()
@@ -18,16 +18,17 @@ public class CameraFollow : MonoBehaviour
     {
         if (target == null) return;
 
-        // Desired position = ball position + offset
-        Vector3 desiredPosition = target.position + offset;
+        // Desired camera position
+        Vector3 desiredPosition = target.position + target.transform.rotation * offset;
 
-        // Smoothly move camera towards desired position
+        // Smooth follow
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
 
         transform.position = smoothedPosition;
 
-        // Keep looking at the ball
+        // Make the camera look at the ball
         transform.LookAt(target);
+        
         
     }
 }
